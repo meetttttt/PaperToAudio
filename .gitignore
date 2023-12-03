@@ -19,7 +19,6 @@ env/
 *.env
 
 # Logs and databases
-*.log
 *.sqlite
 *.db
 
@@ -28,3 +27,10 @@ env/
 
 # Pycharm
 .idea/
+
+# downloads
+pdf_download/*
+audio_converted/*
+
+# Log
+Log/*
