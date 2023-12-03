@@ -10,7 +10,6 @@ import requests
 
 from gtts import gTTS
 
-
 # Setting up Logging
 logging.basicConfig(filename="Log/log.log",
                     format="%(asctime)s - %(message)s",
@@ -18,7 +17,7 @@ logging.basicConfig(filename="Log/log.log",
                     level=logging.INFO)
 
 
-def download_pdf_file(url: str) -> bool:
+def download_pdf_file(url: str):
     """Download PDF from given URL to local directory.
 
     :param url: The url of the PDF file to be downloaded
@@ -39,12 +38,12 @@ def download_pdf_file(url: str) -> bool:
             pdf_file_name += os.path.basename(url)
 
             # Save in current working directory
-            filepath = os.path.join(os.getcwd() + "//download//", pdf_file_name)
+            filepath = os.path.join(os.getcwd() + "//pdf_download//", pdf_file_name)
 
             with open(filepath, 'wb') as pdf_object:
                 pdf_object.write(response.content)
                 logging.info(f'{pdf_file_name} was successfully saved!')
-                return True
+                return filepath
         else:
             logging.info(f'Uh oh! Could not download {pdf_file_name},')
             logging.info(f'HTTP response status code: {response.status_code}')
@@ -90,10 +89,23 @@ def text_to_audio(text: str, output_file: str) -> bool:
     try:
         logging.info(f"Started with the tex-to-audio")
         tts = gTTS(text=text, lang='en')
-        tts.save(output_file)
+        tts.save("//audio_converted//" + output_file)
         logging.info(f"Done with text-to-audio")
         return True
 
     except Exception as e:
         logging.info(f"Error: {e}")
         return False
+
+
+# Function to convert PDF to base64
+def download_pdf(file_path: str):
+    logging.info(f"Staring with the downloading the pdf generating the link...")
+    try:
+        with open(file_path, 'rb') as file:
+            pdf_data = file.read()
+        return pdf_data
+
+    except Exception as e:
+        logging.info(f"Error while generating the link: {e}")
+
