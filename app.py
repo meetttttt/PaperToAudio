@@ -2,15 +2,18 @@ import streamlit as st
 import PyPDF2
 import utils
 import io
-from utils import download_pdf_file, pdf_to_text, text_to_audio
+from utils import download_pdf_file, text_to_audio, download_audio, pdf_to_text
 
 
 def extract_text_from_pdf(pdf_bytes):
-    text = ''
-    pdf_reader = PyPDF2.PdfReader(io.BytesIO(pdf_bytes))
-    for page_num in range(len(pdf_reader.pages)):
-        text += pdf_reader.pages[page_num].extract_text()
-    return text
+    try:
+        text = ''
+        pdf_reader = PyPDF2.PdfReader(io.BytesIO(pdf_bytes))
+        for page_num in range(len(pdf_reader.pages)):
+            text += pdf_reader.pages[page_num].extract_text()
+        return text
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 
 # Page title
@@ -36,6 +39,18 @@ if convert_button:
                 file_name="converted_pdf.pdf",
                 mime="application/octet-stream"
             )
+            st.info("Converting to Audio...")
+            text = pdf_to_text(path)
+            if text:
+                audio_path = text_to_audio(text, "output.mp3")
+                if audio_path:
+                    st.success("Text to audio conversion successful!")
+                    audio_data = download_audio(audio_path)
+                    st.audio(audio_data, format="audio/mp3", start_time=0)
+                else:
+                    st.error("Failed to convert text to audio. Please try again.")
+            else:
+                st.error("Failed to Read PDF. Please check the URL and PDF and then try again.")
         else:
             st.error("Failed to download PDF. Please check the URL and try again.")
 
@@ -51,11 +66,15 @@ if pdf_file is not None:
 
     # Use the function to extract text from PDF contents
     text_from_pdf = extract_text_from_pdf(pdf_contents)
-
-    # # Text to audio conversion
-    st.info("Converting text to audio...")
-    if utils.text_to_audio(text_from_pdf, "output.mp3"):
-        st.success("Text to audio conversion successful!")
-        # st.audio(output_audio_file, format="audio/mp3", start_time=0)
+    if text_from_pdf:
+        st.success("Extracted text from pdf")
+        st.info("Converting text to audio...")
+        audio_path = text_to_audio(text_from_pdf, "output.mp3")
+        if audio_path:
+            st.success("Text to audio conversion successful!")
+            audio_data = download_audio(audio_path)
+            st.audio(audio_data, format="audio/mp3", start_time=0)
+        else:
+            st.error("Failed to convert text to audio. Please try again.")
     else:
-        st.error("Failed to convert text to audio. Please try again.")
+        st.error("Not Able to extract text from the pdf..!")

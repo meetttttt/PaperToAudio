@@ -78,7 +78,7 @@ def pdf_to_text(pdf_path: str) -> str:
         logging.info(f"Error: {e}")
 
 
-def text_to_audio(text: str, output_file: str) -> bool:
+def text_to_audio(text: str, output_file: str):
     """
     This function will convert the text to audio.
     The text will be the text that is extracted from the pdf.
@@ -89,16 +89,18 @@ def text_to_audio(text: str, output_file: str) -> bool:
     try:
         logging.info(f"Started with the tex-to-audio")
         tts = gTTS(text=text, lang='en')
-        tts.save("//audio_converted//" + output_file)
+        # Save in current working directory
+        filepath = os.path.join(os.getcwd() + "//audio_converted//", output_file)
+        tts.save(filepath)
         logging.info(f"Done with text-to-audio")
-        return True
+        return filepath
 
     except Exception as e:
         logging.info(f"Error: {e}")
         return False
 
 
-# Function to convert PDF to base64
+# Function to convert PDF
 def download_pdf(file_path: str):
     logging.info(f"Staring with the downloading the pdf generating the link...")
     try:
@@ -108,4 +110,16 @@ def download_pdf(file_path: str):
 
     except Exception as e:
         logging.info(f"Error while generating the link: {e}")
+
+
+# Function to convert audio
+def download_audio(file_path: str):
+    logging.info(f"Staring with the downloading the audio generating the link...")
+    try:
+        with open(file_path, 'rb') as file:
+            pdf_data = file.read()
+        return pdf_data
+
+    except Exception as e:
+        logging.info(f"Error while generating the link for audio: {e}")
 
