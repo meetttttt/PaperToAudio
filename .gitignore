@@ -30,7 +30,7 @@ env/
 .idea/
 
 # pdf
-download/*.pdf
+download/
 
 # outputfiles
 *.mp3
