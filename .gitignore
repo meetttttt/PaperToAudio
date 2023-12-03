@@ -28,3 +28,9 @@ env/
 
 # Pycharm
 .idea/
+
+# pdf
+download/*.pdf
+
+# outputfiles
+*.mp
