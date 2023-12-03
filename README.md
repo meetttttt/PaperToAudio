@@ -3,7 +3,7 @@ Convert Research Paper to Audio
 
 # Give it a shot:
 - Python version: `3.9.13`
-- Clone the repo
+- Clone the repo `https://github.com/meetttttt/PaperToAudio.git`
 - Install the requirements.txt: `pip install -r requirements.txt`
 - Go to main.py: update the url to desired url.
 - Run this command in terminal: `python main.py`
