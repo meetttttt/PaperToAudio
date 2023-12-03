@@ -29,8 +29,9 @@ env/
 # Pycharm
 .idea/
 
-# pdf
-download/
+# downloads
+pdf_download/*
+audio_converted/*
 
 # outputfiles
 *.mp3
