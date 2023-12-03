@@ -24,4 +24,4 @@ This project is designed to convert research papers into audio format, providing
 
 # Contact Us:
 Email: meetnagadia@gmail.com
-Twitter: ![MeetNagdia](https://twitter.com/MeetNagadia)
+Twitter: [MeetNagdia](https://twitter.com/MeetNagadia)
